@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>گزارش کار عملیات نقشه برداری - Grayscale</title>
+
+    <!--  Vazirmatn font -->
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet" type="text/css" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Reset & Basic Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff; /* Light grey background for screen */
+            font-size: 12px;
+            color: #000000; /* Dark grey text */
+            font-family: 'Vazirmatn', sans-serif;
+            direction: rtl;
+            line-height: 1.7;
+            font-weight: 600; /* Added increased base font weight */
+        }
+
+        /* A4 Page Structure */
+        .page {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0 auto; /* Center on screen */
+            background: white;
+            box-shadow: 0 0 0.5cm rgba(0, 0, 0, 0.1);
+            box-sizing: border-box !important;
+            position: relative;
+            page-break-after: always;
+            border-radius: 0; /* No rounded corners for grayscale */
+        }
+
+        .page:last-child {
+            page-break-after: avoid;
+        }
+
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+
+            html, body {
+                width: 210mm;
+                height: 297mm;
+                margin: 0;
+                padding: 0;
+            }
+
+            .page {
+                width: 210mm;
+                min-height: 297mm;
+                padding: 20mm !important;
+                margin: 0 !important;
+                border: none;
+                border-radius: 0;
+                box-shadow: none;
+                background: white;
+                page-break-after: always;
+                overflow: hidden;
+            }
+
+            .page:last-child {
+                page-break-after: avoid;
+            }
+
+            .section-box, table, .footer {
+                break-inside: avoid; /* Prevent breaks within these elements */
+            }
+        }
+
+        /* Content size adjustments */
+        .center-title {
+            margin-bottom: 15mm;
+        }
+
+        .center-title h1 { font-size: 18px; color: #000000; font-weight: 900; } /* Darker title */
+        .center-title h2 { font-size: 16px; color: #000000; font-weight: 800; }
+        .center-title h3 { font-size: 14px; color: #000000; font-weight: 700; }
+
+        /* Footer positioning - Adjusted to be lower */
+        .footer, .page-number {
+            position: absolute;
+            bottom: 15mm;  /* Changed from 20mm to 15mm */
+            left: 20mm;
+            right: 20mm;
+            font-size: 12px;
+            color: #000000;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .page-number {
+            text-align: right;
+             left: auto;
+             right: 20mm;
+             bottom: 15mm;  /* Changed from 20mm to 15mm to match footer */
+        }
+
+
+        /* Notes area */
+        .notes-area {
+            height: auto;
+            min-height: 220mm;
+            margin-top: 10mm;
+            border: 1px solid #000000; /* Light grey border */
+            position: relative;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+
+        .notes-placeholder {
+            text-align: center;
+            font-style: italic;
+            color: #000000; /* Lighter grey placeholder text */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            font-weight: 600;
+        }
+
+
+        /* Headings - Grayscale */
+        h1, h2, h3, h4, h5, h6 {
+            color: #000000; /* Dark grey headings */
+            font-weight: 800; /* Increased from bold */
+            margin-top: 1em;
+            margin-bottom: 0.5em;
+            line-height: 1.2;
+        }
+
+        h1 { font-size: 20px; }
+        h2 { font-size: 16px; }
+        h3 { font-size: 14px; }
+        h4 { font-size: 13px; }
+
+        /* Paragraphs - Grayscale */
+        p {
+            margin-bottom: 1em;
+            text-align: justify;
+            color: #000000; /* Slightly lighter paragraph text */
+            font-weight: 600;
+        }
+
+        /* Section Box - Grayscale */
+        .section-box {
+            border: 1px solid #000000; /* Light grey border */
+            padding: 10px;
+margin-bottom: 15px;
+            border-radius: 4px;
+            background-color: #f9f9f9; /* Very light grey background */
+        }
+
+        .section-title {
+            border-bottom: 2px dashed #000000; /* Changed from #bbb to pure black */
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+             display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #000000; /* Medium grey section title text */
+        }
+
+        .section-title i {
+            color: #000000; /* Light grey icon */
+            font-size: 1em;
+        }
+
+        /* Tables - Grayscale */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1em;
+            margin-bottom: 1em;
+        }
+
+        th, td {
+            border: 1px solid #000000; /* Light grey table border */
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ffffff; /* Light grey header background */
+            font-weight: bold;
+            color: #000000; /* Medium grey header text */
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffffff; /* Very light grey even row background */
+        }
+
+
+        /* Text Alignment */
+        .rtl {
+            direction: rtl;
+            text-align: right;
+        }
+
+        .center-title {
+            text-align: center;
+            margin-bottom: 1em;
+        }
+
+        .center-title h1 {
+            color: #000000; /* Darker main title */
+            margin-bottom: 0.15em;
+        }
+
+        .center-title h2, .center-title h3 {
+            color: #000000; /* Dark grey subtitles */
+        }
+
+        /* Lists */
+        ul, ol {
+            padding-right: 20px;
+            margin-bottom: 1em;
+        }
+
+        li {
+            margin-bottom: 0.3em;
+        }
+
+        /* Icons - Grayscale */
+        ul li i, ol li i, .section-title i, .center-title h1 i {
+            margin-left: 5px;
+            color: #000000; /* Light grey icons */
+        }
+    </style>
+</head>
+<body>
+
+<div class="page rtl">
+    <div class="center-title">
+        <h1><i class="fas fa-clipboard-check"></i> گزارش کار عملیات نقشه برداری</h1>
+        <h2>درس نقشه برداری عملی</h2>
+        <h3>استاد وحید صادقی</h3>
+    </div>
+
+
+    <div class="section-box">
+        <h2 class="section-title"><i class="fas fa-ruler-vertical"></i> آموزش های جلسه دوم - خطای ترازیابی با روش یک دور زدن</h2>
+        <p>
+            ترازیابی یک روش مهم در نقشه‌برداری است که برای تعیین ارتفاع نقاط مختلف نسبت به یک سطح مبنا استفاده می‌شود. روش "یک دور زدن" یا "حلقه بسته" یکی از روش‌های رایج ترازیابی است که در آن، ترازیابی از یک نقطه معلوم (مانند بنچ‌مارک) شروع شده و پس از طی یک مسیر، دوباره به همان نقطه اولیه باز می‌گردد. این روش به ما کمک می‌کند تا خطاهای موجود در ترازیابی را شناسایی و کنترل کنیم.
+        </p>
+
+        <h3><i class="fas fa-exclamation-triangle"></i> چرا خطایابی در روش یک دور زدن مهم است؟</h3>
+        <p>
+            در هر اندازه‌گیری ترازیابی، احتمال بروز خطا وجود دارد. این خطاها می‌توانند ناشی از عوامل مختلفی مانند خطاهای دستگاهی، خطاهای انسانی و خطاهای محیطی باشند. در روش یک دور زدن، با برگشتن به نقطه شروع، ما می‌توانیم میزان خطای کلی ترازیابی را محاسبه کنیم. اگر خطای محاسبه شده از حد مجاز بیشتر باشد، نشان‌دهنده وجود مشکل در اندازه‌گیری‌ها است و باید ترازیابی مجدداً انجام شود.
+        </p>
+
+        <h3><i class="fas fa-list-ol"></i> مراحل ترازیابی با روش یک دور زدن و بررسی خطا</h3>
+        <ol>
+            <li><i class="fas fa-map-marked-alt"></i> <strong>انتخاب مسیر و نقاط:</strong> مسیر ترازیابی را به شکل یک حلقه بسته انتخاب کنید.</li>
+            <li><i class="fas fa-tools"></i> <strong>استقرار دستگاه ترازیاب:</strong> دستگاه را در نقطه مناسب مستقر و تراز کنید.</li>
+            <li><i class="fas fa-arrow-up"></i> <strong>قرائت شاخص عقب (ایستگاه اول):</strong> قرائت عقب (BS) را روی نقطه شروع انجام دهید.</li>
+            <li><i class="fas fa-arrow-down"></i> <strong>قرائت شاخص جلو (ایستگاه اول):</strong> قرائت جلو (FS) را روی نقطه بعدی انجام دهید.</li>
+            <li><i class="fas fa-truck"></i> <strong>انتقال دستگاه و تکرار قرائت‌ها:</strong> دستگاه را به ایستگاه بعدی منتقل و قرائت‌ها را تکرار کنید تا به نقطه شروع برسید.</li>
+            <li><i class="fas fa-check-double"></i> <strong>قرائت بست (نقطه پایانی):</strong>  یک قرائت جلو (FS) نهایی روی نقطه شروع انجام دهید.</li>
+            <li><i class="fas fa-calculator"></i> <strong>محاسبه ارتفاع نقاط:</strong> ارتفاع نقاط را با استفاده از قرائت‌های عقب و جلو محاسبه کنید.</li>
+            <li><i class="fas fa-times-circle"></i> <strong>محاسبه خطای بست (Misclosure):</strong> خطای بست را با استفاده از مجموع قرائت‌ها محاسبه کنید.</li>
+            <li><i class="fas fa-balance-scale"></i> <strong>مقایسه خطای بست با خطای مجاز:</strong> خطای بست را با خطای مجاز مقایسه کنید.</li>
+        </ol>
+
+        <h3><i class="fas fa-bug"></i> انواع خطاهای رایج در ترازیابی</h3>
+        <ul>
+            <li><i class="fas fa-wrench"></i> خطاهای دستگاهی (تنظیم نبودن دستگاه)</li>
+            <li><i class="fas fa-user-times"></i> خطاهای انسانی (قرائت نادرست، نشانه روی اشتباه)</li>
+            <li><i class="fas fa-cloud-rain"></i> خطاهای طبیعی (شکست نور، باد، دما)</li>
+        </ul>
+
+        <h3><i class="fas fa-hand-holding-heart"></i> راهکارهای کاهش خطا در ترازیابی</h3>
+        <ul>
+            <li><i class="fas fa-screwdriver"></i> تنظیم و کالیبراسیون دوره‌ای دستگاه.</li>
+            <li><i class="fas fa-check-square"></i> استفاده از روش‌های صحیح استقرار و تراز کردن.</li>
+            <li><i class="fas fa-eye"></i> دقت در قرائت شاخص و نشانه روی.</li>
+            <li><i class="fas fa-ruler"></i> کاهش طول دیدها.</li>
+            <li><i class="fas fa-sun"></i> انجام ترازیابی در شرایط آب و هوایی مناسب.</li>
+            <li><i class="fas fa-user-graduate"></i> استفاده از افراد آموزش‌دیده.</li>
+            <li><i class="fas fa-redo"></i> تکرار اندازه‌گیری‌ها و میانگین‌گیری.</li>
+        </ul>
+
+        <h3><i class="fas fa-file-contract"></i> خلاصه</h3>
+        <p>
+            روش یک دور زدن در ترازیابی امکان کنترل کیفیت اندازه‌گیری‌ها را با محاسبه خطای بست فراهم می‌کند. رعایت مراحل صحیح و دقت در کار، خطاها را کاهش داده و نتایج دقیقی ارائه می‌دهد. در صورت زیاد بودن خطای بست، بازبینی و تکرار اندازه‌گیری‌ها ضروری است.
+        </p>
+    </div>
+
+
+    <div class="footer">
+        گزارش کار پارسا رضوی – درس نقشه برداری عملی - استاد وحید صادقی
+    </div>
+    <div class="page-number">صفحه 1</div>
+</div>
+
+<div class="page rtl">
+    <div class="section-box">
+        <h2 class="section-title"><i class="fas fa-table"></i> جدول قرائت های ترازیابی</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>شماره نقاط</th>
+                    <th>قرائت عقب (B.S)</th>
+                    <th>قرائت جلو (F.S)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>A</td>
+                    <td>1669</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>1535</td>
+                    <td>1825</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>1592</td>
+                    <td>1143</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>1959</td>
+                    <td>1325</td>
+                </tr>
+                <tr>

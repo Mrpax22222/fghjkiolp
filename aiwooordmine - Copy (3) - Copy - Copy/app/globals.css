@@ -1,0 +1,270 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* بهبود استایل‌های انتخاب و هاور */
+.editor-highlight-hover {
+  outline: 2px dashed #3b82f6 !important;
+  outline-offset: 2px !important;
+  transition: outline 0.2s ease !important;
+}
+
+.editor-highlight-selected {
+  outline: 2px solid #2563eb !important;
+  outline-offset: 2px !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+  transition: all 0.2s ease !important;
+}
+
+/* استایل برای عناصر قابل ویرایش */
+[contenteditable="true"] {
+  min-height: 1em;
+  border-radius: 4px;
+  background-color: rgba(59, 130, 246, 0.05) !important;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2) !important;
+  cursor: text !important;
+}
+
+/* استایل برای عناصر قابل کلیک */
+[data-editor-id] {
+  cursor: pointer;
+  transition: all 0.2s ease !important;
+}
+
+.editor-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.resizer {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 5px;
+  background: rgba(0, 0, 0, 0.1);
+  cursor: col-resize;
+  z-index: 10;
+}
+
+.resizer:hover,
+.resizer.active {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Word-like styling for editor */
+.word-like-editor {
+  font-family: var(--font-vazirmatn);
+}
+
+/* Improved dark mode support */
+.dark .editor-highlight-hover {
+  outline-color: #60a5fa !important;
+}
+
+.dark .editor-highlight-selected {
+  outline-color: #3b82f6 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+}
+
+.dark [contenteditable="true"] {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Animation for selection */
+@keyframes pulse-border {
+  0% {
+    outline-offset: 2px;
+  }
+  50% {
+    outline-offset: 4px;
+  }
+  100% {
+    outline-offset: 2px;
+  }
+}
+
+.editor-highlight-selected {
+  animation: pulse-border 2s ease-in-out infinite;
+}
+
+/* استایل‌های جدید برای نوار راهنمای انتخاب مستقیم */
+.direct-selection-toolbar {
+  position: fixed;
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 300px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: "Vazirmatn", sans-serif;
+}
+
+.dark .direct-selection-toolbar {
+  background-color: rgba(30, 41, 59, 0.95);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* استایل‌های جدید برای کالیبراسیون */
+.template-calibrate-page {
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  position: relative;
+}
+
+.template-calibrate-page:hover {
+  outline: 3px dashed rgba(59, 130, 246, 0.8) !important;
+  outline-offset: 2px !important;
+  background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+.template-calibrate-page:hover::after {
+  content: "انتخاب به عنوان صفحه";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  font-family: "Vazirmatn", sans-serif;
+}
+
+.template-calibrate-element {
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  position: relative;
+}
+
+.template-calibrate-element:hover {
+  outline: 2px dashed rgba(16, 185, 129, 0.8) !important; /* سبز */
+  outline-offset: 2px !important;
+  background-color: rgba(16, 185, 129, 0.05) !important;
+}
+
+.template-calibrate-element:hover::after {
+  content: "انتخاب به عنوان عنصر قابل ویرایش";
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  z-index: 1000;
+  font-family: "Vazirmatn", sans-serif;
+}
+
+.template-selected-element {
+  outline: 3px solid #2563eb !important; /* آبی */
+  outline-offset: 2px !important;
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1) !important;
+}
+
+/* اضافه کردن استایل برای نمایش بهتر اعلان‌ها */
+.selection-notification {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border-radius: 4px;
+  z-index: 9999;
+  font-family: "Vazirmatn", sans-serif;
+  animation: fadeInOut 3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -20px);
+  }
+}
